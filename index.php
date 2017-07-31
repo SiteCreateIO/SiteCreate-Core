@@ -24,5 +24,4 @@ require_once( SITECREATE_CORE_PATH . 'core_cpts.php' );
  * Let's include all of that now.
  */
 require_once( SITECREATE_CORE_PATH . 'core_init.php' );
-require_once( SITECREATE_CORE_PATH . 'kirki/kirki.php' );
 ?>

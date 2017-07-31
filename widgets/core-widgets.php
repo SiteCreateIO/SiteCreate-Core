@@ -243,7 +243,7 @@ if(!( class_exists('sitecreate_core_latest_tweets_widget') )){
 				<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $instance['title']; ?>" />
 			</p>
 			<p>
-				<label for="<?php echo $this->get_field_id('twitter-id'); ?>">Twitter Username</label><br>
+				<label for="<?php echo $this->get_field_id('twitter-id'); ?>">Twitter Username <br><small>To create a widget number Go to twitter.com and sign in as normal, go to your settings page, then go to "Widgets" on the left hand side. Create a new widget for what you need eg "user time line" or "search" etc.</small></label><br><br>
 				<input class="widefat" id="<?php echo $this->get_field_id('twitter-id'); ?>" name="<?php echo $this->get_field_name('twitter-id'); ?>" value="<?php echo $instance['twitter-id']; ?>" />
 			</p>
 			<p>
