@@ -260,6 +260,96 @@ if(!( class_exists('sitecreate_core_latest_tweets_widget') )){
 }
 
 
+if(!( class_exists('sitecreate_core_instagram_widget') )){
+	class sitecreate_core_instagram_widget extends WP_Widget {
+		
+		public function __construct(){
+			parent::__construct(
+				'sc_core_instagram-widget', // Base ID
+				__('SC: Instagram', 'sitecreate-core'), // Name
+				array( 'description' => __( 'Add a simple instagram widget', 'sitecreate-core' ), ) // Args
+			);
+		}
+		
+		public function widget($args, $instance)
+		{
+			extract($args);
+			$title = apply_filters('widget_title', $instance['title']);
+	
+			echo $before_widget;
+	
+			if($title) {
+				echo  $before_title.$title.$after_title;
+			} ?>
+
+			<div class="sc-insgram-feed-widget">
+		    <?php $username = $instance['twitter-id'];
+				$json = file_get_contents('https://www.instagram.com/'.$username.'/media/');
+				$instagram_feed_data = json_decode($json, true);
+				$i=0;
+				if (isset($instagram_feed_data['items'])) {
+				    foreach ($instagram_feed_data['items'] as $item) {
+				        $link = $item['link'];
+				        $img_url = $item['images']['low_resolution']['url'];
+				        $caption = isset($item['caption']) ? $item['caption']['text'] : '';
+				        
+				        ?>
+				        <a href="<?= $link; ?>" target="_blank" class="instagram-post">
+				            <img src="<?= $img_url; ?>">
+				        </a>
+				        <?php
+				        $i++;
+						if($i==$instance['amount']) break;
+				    }
+				} 
+			?>
+			</div>
+			
+			<?php echo $after_widget;
+		}
+		
+		public function update($new_instance, $old_instance)
+		{
+			$instance = $old_instance;
+
+			$instance['twitter-id'] = $new_instance['twitter-id'];
+			$instance['title'] = strip_tags($new_instance['title']);
+			if( is_numeric($new_instance['amount']) ){
+				$instance['amount'] = $new_instance['amount'];
+			} else {
+				$new_instance['amount'] = '3';
+			}
+	
+			return $instance;
+		}
+	
+		public function form($instance)
+		{
+			$defaults = array('title' => 'Latest Instagrams', 'twitter-id' => 'distinctivedan', 'amount' => '9');
+			$instance = wp_parse_args((array) $instance, $defaults); ?>
+			
+			<p>
+				<label for="<?php echo $this->get_field_id('title'); ?>">Title:</label><br>
+				<input class="widefat" id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $instance['title']; ?>" />
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id('twitter-id'); ?>">Instagram Username <br><small>To create a widget number Go to twitter.com and sign in as normal, go to your settings page, then go to "Widgets" on the left hand side. Create a new widget for what you need eg "user time line" or "search" etc.</small></label><br><br>
+				<input class="widefat" id="<?php echo $this->get_field_id('twitter-id'); ?>" name="<?php echo $this->get_field_name('twitter-id'); ?>" value="<?php echo $instance['twitter-id']; ?>" />
+			</p>
+			<p>
+				<label for="<?php echo $this->get_field_id('amount'); ?>">Number of Images (Max 20_</label><br>
+				<input class="widefat" id="<?php echo $this->get_field_id('amount'); ?>" name="<?php echo $this->get_field_name('amount'); ?>" value="<?php echo $instance['amount']; ?>" />
+			</p>
+		<?php
+		}
+	}
+	function sitecreate_core_register_instagram_widget(){
+	     register_widget( 'sitecreate_core_instagram_widget' );
+	}
+	add_action( 'widgets_init', 'sitecreate_core_register_instagram_widget');
+}
+
+
 /*-----------------------------------------------------------------------------------*/
 /*	CONTACT WIDGET
 /*-----------------------------------------------------------------------------------*/
