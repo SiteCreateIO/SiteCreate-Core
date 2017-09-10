@@ -283,7 +283,8 @@ if(!( class_exists('sitecreate_core_instagram_widget') )){
 			} ?>
 
 			<div class="sc-insgram-feed-widget">
-		    <?php $username = $instance['twitter-id'];
+		    <?php 
+		    	$username = $instance['twitter-id'];
 				$json = file_get_contents('https://www.instagram.com/'.$username.'/media/');
 				$instagram_feed_data = json_decode($json, true);
 				$i=0;
@@ -403,7 +404,7 @@ if(!( class_exists('sitecreate_social_widget') )){
 	    	<ul class="social">
 	    		<?php
 	    			foreach( $links as $index => $link ){
-	    				echo '<li><a href="'. $link .'" target="_blank"><i class="icon-s-'. $icons[$index] .'"></i></a></li>';
+	    				echo '<li><a href="'. $link .'" target="_blank"><i class="fa fa-'. $icons[$index] .'"></i></a></li>';
 	    			}
 	    		?>
 	
@@ -534,8 +535,8 @@ if(!( class_exists('sitecreate_social_widget') )){
 		<?php
 		}
 	}
-	function ebor_framework_register_ebor_contact(){
+	function sitecreate_core_register_sitecreate_social_widget(){
 	     register_widget( 'sitecreate_social_widget' );
 	}
-	add_action( 'widgets_init', 'ebor_framework_register_ebor_contact');
+	add_action( 'widgets_init', 'sitecreate_core_register_sitecreate_social_widget');
 }

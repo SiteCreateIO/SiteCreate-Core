@@ -19,6 +19,7 @@ if( '1' == $framework_options['core_widgets'] ){
 	require_once( SITECREATE_CORE_PATH . 'widgets/core-widgets.php' );	
 }
 
+require_once( SITECREATE_CORE_PATH . 'kirki/kirki.php' );	
 
 /**
  * Register Portfolio Post Type
